@@ -5,7 +5,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "sushant@123";
 export function generateToken(user){
     return jwt.sign(
         {
-            userId: user._id,
+            userId: user.id,
             email: user.email,
             role : user.role,
         },

@@ -41,55 +41,73 @@ export function AuthProvider({ children }) {
         setUser(userData);
       } else {
         Cookies.remove("token");
+        setUser(null);
       }
     } catch (error) {
       console.error("Auth check failed:", error);
       Cookies.remove("token");
+      setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
   const login = async (email, password) => {
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      Cookies.set("token", data.token, { expires: 7 });
-      setUser(data.user);
-      return { success: true };
-    } else {
-      return { success: false, error: data.error };
+      if (response.ok) {
+        Cookies.set("token", data.token, { expires: 7 });
+        setUser(data.user);
+        return { success: true };
+      } else {
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      return { success: false, error: "Network error occurred" };
     }
   };
 
   const signup = async (email, password) => {
-    const response = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      Cookies.set("token", data.token, { expires: 7 });
-      setUser(data.user);
-      return { success: true };
-    } else {
-      return { success: false, error: data.error };
+      if (response.ok) {
+        Cookies.set("token", data.token, { expires: 7 });
+        setUser(data.user);
+        return { success: true };
+      } else {
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      return { success: false, error: "Network error occurred" };
     }
   };
 
-  const logout = () => {
-    Cookies.remove("token");
-    setUser(null);
-    router.push("/login");
+  const logout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      Cookies.remove("token");
+      setUser(null);
+      router.push("/login");
+    }
   };
 
   return (
