@@ -113,7 +113,7 @@ export default function Login() {
                   Signing in...
                 </div>
               ) : (
-                'Sign in'
+                &apos;Sign in&apos;
               )}
             </button>
           </div>
@@ -123,7 +123,7 @@ export default function Login() {
               href="/signup" 
               className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200"
             >
-              Don't have an account? Sign up
+              Don&apos;t have an account? Sign up
             </Link>
           </div>
         </form>

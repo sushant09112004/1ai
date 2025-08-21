@@ -144,7 +144,7 @@ export default function Signup() {
                   Creating account...
                 </div>
               ) : (
-                'Sign up'
+                &apos;Sign up&apos;
               )}
             </button>
           </div>

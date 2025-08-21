@@ -19,6 +19,9 @@ export default function Navbar() {
               <Link href="/dashboard" className="hover:underline">
                 Dashboard
               </Link>
+              <Link href="/chat" className="hover:underline">
+                AI Chat
+              </Link>
               {isAdmin && (
                 <Link href="/admin" className="hover:underline">
                   Admin

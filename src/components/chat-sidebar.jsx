@@ -4,12 +4,6 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { PanelLeft, MessageSquare, Plus, Settings, Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 
-// interface ChatHistory {
-//   id: string
-//   title: string
-//   timestamp: string
-// }
-
 const mockChatHistory = [
   { id: "1", title: "React Components Best Practices", timestamp: "2 hours ago" },
   { id: "2", title: "TypeScript Advanced Types", timestamp: "1 day ago" },
@@ -18,13 +12,14 @@ const mockChatHistory = [
   { id: "5", title: "Database Design Patterns", timestamp: "1 week ago" },
 ]
 
-// interface  {
-//   isCollapsed: boolean
-//   onToggle: () => void
-// }
-
-export function ChatSidebar({ isCollapsed, onToggle }) {
+export function ChatSidebar({ isCollapsed, onToggle, onNewChat }) {
   const { theme, setTheme } = useTheme()
+
+  const handleNewChat = () => {
+    if (onNewChat) {
+      onNewChat()
+    }
+  }
 
   return (
     <div
@@ -44,7 +39,12 @@ export function ChatSidebar({ isCollapsed, onToggle }) {
             <PanelLeft className="h-5 w-5" />
           </Button>
           {!isCollapsed && (
-            <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-accent">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-sidebar-foreground hover:bg-sidebar-accent"
+              onClick={handleNewChat}
+            >
               <Plus className="h-5 w-5" />
             </Button>
           )}
@@ -62,6 +62,7 @@ export function ChatSidebar({ isCollapsed, onToggle }) {
                 variant="ghost"
                 size="icon"
                 className="w-full text-sidebar-foreground hover:bg-sidebar-accent"
+                title={chat.title}
               >
                 <MessageSquare className="h-4 w-4" />
               </Button>
